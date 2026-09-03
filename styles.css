@@ -1,0 +1,1212 @@
+/* =========================================================
+   Y2K / VINTAGE INTERNET PASSWORD GENERATOR
+   Compatible with your existing HTML + JS
+========================================================= */
+
+
+/* ---------- RESET ---------- */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-main: #d9ddff;
+  --bg-soft: #eef0ff;
+
+  --purple: #7657d8;
+  --purple-dark: #49388d;
+  --purple-light: #c8baff;
+
+  --blue: #9be8ff;
+  --cyan: #c7f4ff;
+
+  --pink: #ffb8e5;
+  --pink-light: #ffe2f4;
+
+  --white: #ffffff;
+  --off-white: #fafaff;
+
+  --text-main: #28253c;
+  --text-muted: #77738d;
+
+  --border-dark: #69628c;
+  --border-soft: #cac5ec;
+
+  --shadow:
+    8px 8px 0 rgba(73, 56, 141, 0.18);
+
+  --inner-highlight:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+
+/* ---------- PAGE ---------- */
+
+body {
+  min-height: 100vh;
+
+  font-family:
+    "Trebuchet MS",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  color: var(--text-main);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 42px 20px;
+
+  overflow-x: hidden;
+
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.25) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.25) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 12% 18%,
+      rgba(255, 184, 229, 0.85),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(155, 232, 255, 0.8),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #d8d6ff,
+      #f7e8ff 48%,
+      #d7f5ff
+    );
+
+  background-size:
+    24px 24px,
+    24px 24px,
+    auto,
+    auto,
+    auto;
+}
+
+
+/* Decorative floating blobs */
+
+body::before,
+body::after {
+  content: "";
+
+  position: fixed;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  filter: blur(2px);
+
+  opacity: 0.8;
+
+  z-index: -1;
+}
+
+body::before {
+  width: 230px;
+  height: 230px;
+
+  top: -70px;
+  right: -60px;
+
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      white,
+      #d7c6ff 35%,
+      #b6a1ff 70%
+    );
+
+  box-shadow:
+    inset -20px -20px 30px rgba(81, 56, 150, 0.2),
+    0 25px 60px rgba(89, 67, 162, 0.25);
+}
+
+body::after {
+  width: 180px;
+  height: 180px;
+
+  bottom: -55px;
+  left: -45px;
+
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      #ffffff,
+      #aeeeff 35%,
+      #8cd4ff 75%
+    );
+
+  box-shadow:
+    inset -15px -15px 25px rgba(32, 129, 170, 0.18),
+    0 20px 50px rgba(63, 154, 190, 0.25);
+}
+
+
+/* ---------- APP ---------- */
+
+.app {
+  width: 100%;
+  max-width: 560px;
+
+  position: relative;
+}
+
+
+/* little fake browser title bar */
+
+.app::before {
+  content: "✦ PASSWORD_GENERATOR.EXE";
+
+  display: flex;
+  align-items: center;
+
+  height: 38px;
+
+  padding: 0 15px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #ece7ff,
+      #b7a8ec
+    );
+
+  border:
+    2px solid var(--border-dark);
+
+  border-bottom: none;
+
+  border-radius:
+    14px 14px 0 0;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  color: #40356d;
+
+  box-shadow:
+    7px 7px 0 rgba(77, 61, 139, 0.13);
+}
+
+
+/* ---------- CARD ---------- */
+
+.password-card {
+  position: relative;
+
+  padding: 34px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.94),
+      rgba(246, 244, 255, 0.92)
+    );
+
+  border:
+    2px solid var(--border-dark);
+
+  border-radius:
+    0 0 20px 20px;
+
+  box-shadow:
+    var(--shadow),
+    var(--inner-highlight);
+
+  overflow: hidden;
+}
+
+
+/* subtle old-web shine */
+
+.password-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 320px;
+  height: 320px;
+
+  top: -170px;
+  right: -170px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.8),
+      rgba(196, 181, 255, 0.12) 55%,
+      transparent 72%
+    );
+
+  pointer-events: none;
+}
+
+
+/* ---------- HEADER ---------- */
+
+.header {
+  position: relative;
+
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  display: inline-block;
+
+  padding:
+    5px 9px;
+
+  margin-bottom: 10px;
+
+  border:
+    1px solid #7e6ac1;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #ffffff,
+      #d9ceff
+    );
+
+  color:
+    #55429d;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size: 11px;
+  font-weight: bold;
+
+  letter-spacing: 1.4px;
+
+  border-radius: 4px;
+
+  box-shadow:
+    2px 2px 0 #a99bdc;
+}
+
+h1 {
+  margin-bottom: 10px;
+
+  font-size: clamp(
+    29px,
+    6vw,
+    40px
+  );
+
+  line-height: 1;
+
+  letter-spacing: -1.6px;
+
+  color:
+    #29243f;
+
+  text-shadow:
+    2px 2px 0 #eee7ff;
+}
+
+.description {
+  max-width: 430px;
+
+  color:
+    var(--text-muted);
+
+  font-size: 14px;
+
+  line-height: 1.65;
+}
+
+
+/* ---------- PASSWORD FIELD ---------- */
+
+.password-output {
+  position: relative;
+
+  display: flex;
+
+  min-height: 62px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #ffffff,
+      #f1edff
+    );
+
+  border:
+    2px solid #8076a7;
+
+  border-radius: 7px;
+
+  box-shadow:
+    inset 2px 2px 4px rgba(76, 63, 117, 0.12),
+    3px 3px 0 #d4ccf4;
+
+  overflow: hidden;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.password-output:focus-within {
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    inset 2px 2px 4px rgba(76, 63, 117, 0.08),
+    4px 4px 0 #bdb1eb,
+    0 0 0 4px rgba(127, 103, 220, 0.12);
+}
+
+.password-output input {
+  flex: 1;
+
+  min-width: 0;
+
+  padding:
+    17px 18px;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color:
+    #30294a;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+}
+
+.password-output input::placeholder {
+  color:
+    #aaa4bc;
+
+  font-weight: normal;
+}
+
+
+/* Copy button */
+
+.icon-button {
+  min-width: 82px;
+
+  border: none;
+  border-left:
+    2px solid #8076a7;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #fefeff 0%,
+      #e6ddff 45%,
+      #c6b7f7 100%
+    );
+
+  color:
+    #51408e;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  box-shadow:
+    inset 1px 1px 0 white;
+
+  transition:
+    filter 0.18s ease,
+    transform 0.1s ease;
+}
+
+.icon-button:hover {
+  filter:
+    brightness(1.04);
+}
+
+.icon-button:active {
+  transform:
+    translateY(1px);
+
+  background:
+    linear-gradient(
+      to bottom,
+      #c5b6f4,
+      #e7e0ff
+    );
+}
+
+
+/* ---------- COPY MESSAGE ---------- */
+
+.copy-message {
+  min-height: 24px;
+
+  padding-top: 7px;
+
+  color:
+    #31836e;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size: 12px;
+}
+
+
+/* ---------- STRENGTH ---------- */
+
+.strength-section {
+  padding:
+    14px 15px;
+
+  margin:
+    4px 0 26px;
+
+  background:
+    rgba(236, 233, 255, 0.65);
+
+  border:
+    1px solid #cac1ee;
+
+  border-radius: 7px;
+
+  box-shadow:
+    inset 1px 1px 0 white;
+}
+
+.strength-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 9px;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size: 12px;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    0.4px;
+
+  color:
+    #6e6589;
+}
+
+#strengthText {
+  color:
+    #4e427d;
+}
+
+.strength-bar {
+  height:
+    9px;
+
+  padding:
+    1px;
+
+  background:
+    #dcd7e8;
+
+  border:
+    1px solid #847a9f;
+
+  border-radius:
+    3px;
+
+  overflow:
+    hidden;
+
+  box-shadow:
+    inset 1px 1px 2px rgba(54, 45, 84, 0.15);
+}
+
+#strengthFill {
+  height:
+    100%;
+
+  width:
+    0%;
+
+  border-radius:
+    1px;
+
+  transition:
+    width 0.3s ease,
+    background 0.3s ease;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+
+/* ---------- LENGTH ---------- */
+
+.setting {
+  margin-bottom:
+    25px;
+}
+
+.setting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom:
+    13px;
+}
+
+.setting-header label {
+  color:
+    #39334d;
+
+  font-size:
+    14px;
+
+  font-weight:
+    700;
+}
+
+#lengthValue {
+  min-width:
+    43px;
+
+  padding:
+    5px 8px;
+
+  text-align:
+    center;
+
+  color:
+    #58439b;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #ffffff,
+      #ded4ff
+    );
+
+  border:
+    1px solid #9080c8;
+
+  border-radius:
+    4px;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size:
+    13px;
+
+  font-weight:
+    bold;
+
+  box-shadow:
+    2px 2px 0 #d6cef1;
+}
+
+
+/* ---------- RANGE SLIDER ---------- */
+
+input[type="range"] {
+  width:
+    100%;
+
+  height:
+    22px;
+
+  appearance:
+    none;
+
+  background:
+    transparent;
+
+  cursor:
+    pointer;
+}
+
+
+/* Chrome / Edge / Safari */
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height:
+    7px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #a7ecff,
+      #c6b1ff,
+      #ffc2e5
+    );
+
+  border:
+    1px solid #8376ab;
+
+  border-radius:
+    3px;
+
+  box-shadow:
+    inset 1px 1px 2px rgba(48, 38, 82, 0.15);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance:
+    none;
+
+  width:
+    19px;
+
+  height:
+    19px;
+
+  margin-top:
+    -7px;
+
+  border:
+    2px solid #625498;
+
+  border-radius:
+    50%;
+
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      #ffffff,
+      #d1c2ff 40%,
+      #8e75da
+    );
+
+  box-shadow:
+    2px 2px 0 #c9bceb;
+
+  transition:
+    transform 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform:
+    scale(1.1);
+}
+
+
+/* Firefox */
+
+input[type="range"]::-moz-range-track {
+  height:
+    7px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #a7ecff,
+      #c6b1ff,
+      #ffc2e5
+    );
+
+  border:
+    1px solid #8376ab;
+
+  border-radius:
+    3px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width:
+    18px;
+
+  height:
+    18px;
+
+  border:
+    2px solid #625498;
+
+  border-radius:
+    50%;
+
+  background:
+    #c7b7ff;
+
+  cursor:
+    pointer;
+}
+
+.range-labels {
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  margin-top:
+    4px;
+
+  color:
+    #918ba3;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size:
+    10px;
+}
+
+
+/* ---------- OPTIONS ---------- */
+
+.options {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap:
+    10px;
+
+  margin-bottom:
+    14px;
+}
+
+.option {
+  position:
+    relative;
+
+  min-height:
+    68px;
+
+  padding:
+    13px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.96),
+      rgba(236,232,255,0.94)
+    );
+
+  border:
+    1px solid #aaa0cf;
+
+  border-radius:
+    7px;
+
+  cursor:
+    pointer;
+
+  box-shadow:
+    2px 2px 0 #dad3f4,
+    inset 1px 1px 0 white;
+
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.option:hover {
+  transform:
+    translateY(-2px);
+
+  border-color:
+    #7561bb;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #e9e1ff
+    );
+}
+
+.option div {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    4px;
+}
+
+.option strong {
+  font-size:
+    13px;
+
+  color:
+    #3b3455;
+}
+
+.option div span {
+  color:
+    #918ba3;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size:
+    10px;
+}
+
+
+/* ---------- CHECKBOX ---------- */
+
+.option input {
+  position:
+    absolute;
+
+  opacity:
+    0;
+
+  pointer-events:
+    none;
+}
+
+.checkbox-ui {
+  position:
+    relative;
+
+  flex-shrink:
+    0;
+
+  width:
+    23px;
+
+  height:
+    23px;
+
+  border:
+    2px solid #8175a7;
+
+  border-radius:
+    4px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #ffffff,
+      #dfdaec
+    );
+
+  box-shadow:
+    inset 1px 1px 0 white;
+
+  transition:
+    0.15s ease;
+}
+
+.option input:checked + .checkbox-ui {
+  background:
+    linear-gradient(
+      135deg,
+      #c5f1ff,
+      #b39fff 48%,
+      #efa5d8
+    );
+
+  border-color:
+    #59488d;
+
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.7),
+    1px 1px 0 #b9aee0;
+}
+
+.option input:checked + .checkbox-ui::after {
+  content:
+    "✓";
+
+  position:
+    absolute;
+
+  top:
+    50%;
+
+  left:
+    50%;
+
+  transform:
+    translate(-50%, -54%);
+
+  color:
+    #3d316e;
+
+  font-size:
+    15px;
+
+  font-weight:
+    900;
+}
+
+
+/* ---------- ERROR ---------- */
+
+.error-message {
+  min-height:
+    24px;
+
+  margin-top:
+    2px;
+
+  color:
+    #bd416f;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size:
+    11px;
+}
+
+
+/* ---------- MAIN BUTTON ---------- */
+
+.generate-button {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  padding:
+    16px 18px;
+
+  margin-top:
+    4px;
+
+  border:
+    2px solid #554589;
+
+  border-radius:
+    7px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #f8f4ff 0%,
+      #c9baf8 38%,
+      #9679dd 65%,
+      #755ac1 100%
+    );
+
+  color:
+    white;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size:
+    13px;
+
+  font-weight:
+    900;
+
+  letter-spacing:
+    1px;
+
+  text-transform:
+    uppercase;
+
+  text-shadow:
+    1px 1px 0 rgba(48, 35, 91, 0.8);
+
+  cursor:
+    pointer;
+
+  box-shadow:
+    inset 1px 1px 0 white,
+    inset -1px -1px 0 rgba(58, 38, 106, 0.35),
+    4px 4px 0 #c0b2e6;
+
+  transition:
+    transform 0.12s ease,
+    filter 0.15s ease,
+    box-shadow 0.12s ease;
+}
+
+.generate-button::before {
+  content:
+    "✦";
+
+  margin-right:
+    9px;
+}
+
+.generate-button::after {
+  content:
+    "✦";
+
+  margin-left:
+    9px;
+}
+
+.generate-button:hover {
+  filter:
+    brightness(1.07);
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    inset 1px 1px 0 white,
+    inset -1px -1px 0 rgba(58, 38, 106, 0.35),
+    5px 6px 0 #b9abe2;
+}
+
+.generate-button:active {
+  transform:
+    translate(2px, 2px);
+
+  box-shadow:
+    inset 1px 1px 0 rgba(70, 54, 118, 0.35),
+    2px 2px 0 #b9abe2;
+}
+
+
+/* ---------- SELECTION ---------- */
+
+::selection {
+  background:
+    #c4b4ff;
+
+  color:
+    #2f2852;
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 560px) {
+
+  body {
+    padding:
+      24px 14px;
+  }
+
+  .password-card {
+    padding:
+      26px 20px;
+  }
+
+  .options {
+    grid-template-columns:
+      1fr;
+  }
+
+  .app::before {
+    height:
+      34px;
+
+    font-size:
+      10px;
+  }
+
+  h1 {
+    font-size:
+      31px;
+  }
+
+}
+
+
+/* ---------- VERY SMALL SCREENS ---------- */
+
+@media (max-width: 390px) {
+
+  .password-output {
+    flex-direction:
+      column;
+  }
+
+  .icon-button {
+    min-height:
+      40px;
+
+    border-left:
+      none;
+
+    border-top:
+      2px solid #8076a7;
+  }
+
+}
+
+
+/* ---------- ACCESSIBILITY ---------- */
+
+button:focus-visible,
+input:focus-visible,
+.option:focus-within {
+  outline:
+    3px solid rgba(109, 87, 196, 0.28);
+
+  outline-offset:
+    3px;
+}
